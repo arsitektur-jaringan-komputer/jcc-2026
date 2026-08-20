@@ -2,6 +2,6 @@
 
 | Name |    Author    | Difficulty |
 | :--- | :----------: | :--------: |
-| ...  | UrSourceCode |    Easy    |
+| Sudoku  | UrSourceCode |    Easy    |
 | calcluator | UrSourceCode |   Medium   |
 | ...  |     ...      |    Hard    |
