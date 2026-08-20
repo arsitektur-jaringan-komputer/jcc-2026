@@ -3,5 +3,5 @@
 | Name |    Author    | Difficulty |
 | :--- | :----------: | :--------: |
 | ...  | UrSourceCode |    Easy    |
-| ...  | UrSourceCode |   Medium   |
+| calcluator | UrSourceCode |   Medium   |
 | ...  |     ...      |    Hard    |
