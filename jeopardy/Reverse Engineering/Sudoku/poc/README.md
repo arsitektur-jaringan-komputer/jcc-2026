@@ -44,10 +44,10 @@ normal gameplay does not make the hidden score equal `1337`.
 
 ## 3. Decode the flag
 
-![IDA completion check](https://media.discordapp.net/attachments/1432011599295549532/1539915932187500664/image.png?ex=6a880df8&is=6a86bc78&hm=cd163a0e402ed1b2ca9ecdef226a59780537c95189f259611c074f2b7f1c97aa&=&format=webp&quality=lossless)
-
 Follow `sub_140001D1A`. It uses `0x5A` as the initial value and each ciphertext
 byte as the next XOR value:
+
+![IDA completion check](https://media.discordapp.net/attachments/1432011599295549532/1539915932187500664/image.png?ex=6a880df8&is=6a86bc78&hm=cd163a0e402ed1b2ca9ecdef226a59780537c95189f259611c074f2b7f1c97aa&=&format=webp&quality=lossless)
 
 Raw IDA decompilation:
 
