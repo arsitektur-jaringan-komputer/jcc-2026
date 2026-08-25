@@ -6,6 +6,7 @@ COPY entrypoint.sh /entrypoint.sh
 
 RUN useradd -m -u 1000 zkp
 RUN chmod +x /entrypoint.sh
+RUN chown zkp:zkp /app
 USER zkp
 
 EXPOSE 6000
