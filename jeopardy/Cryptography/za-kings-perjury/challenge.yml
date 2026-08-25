@@ -1,0 +1,23 @@
+name: "Za King's Perjury"
+author: "adieos"
+category: "Crypto"
+
+description: |
+  As a king, please refrain from making false statements, forging fraudulent proofs, or lying under legal oath at all times.
+
+  Connect using:
+
+      nc HOST PORT
+
+type: "DynamicContainer" # kl static, StaticContainer
+provide: "./release" # kalo perlu atatchment
+
+container:
+  containerImage: "./source"
+  flagTemplate: "JCC{ZKP_50undn3ss_3rr0r_[TEAM_HASH]}" # dynamic flag set di sini
+  exposePort: 6000 # port yg diexpose
+  memoryLimit: 128
+  cpuCount: 1
+  storageLimit: 256
+  networkMode: "Isolated"
+  enableTrafficCapture: false
