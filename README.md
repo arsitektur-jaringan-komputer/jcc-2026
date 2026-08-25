@@ -11,11 +11,10 @@ Inside `jeopardy` folder, the file structure for each challenges should look lik
 ├── release/
 │   └── ...
 ├── source/
-│   └── <name>/
-│       └── ...
+│   └── ...
 └── poc/
     └── ...
-└── README.md
+└── challenge.yml
 ```
 
 Explanation:
@@ -28,25 +27,59 @@ Explanation:
 > To avoid conflicts in docker compose so they don’t sync with each other
 
 1. **poc** is the folder that contains an explanation (or script) on how to solve each challenge (mandatory).
-2. **README.md** is used to provide a description of each challenge. Below is a README.md template that can be used.
+2. **challenge.yml** is used to specify each challenge. It contains the challenge title, author, description, category, type, and flag. For dynamic challenges, it also contains container information such as port to expose and flag format. Below are 2 kinds of `challenge.yml` that can be used, depending on your challenge type.
 
-```md
-# <name>
+- For static, file-only challenges (where flag is **static**):
 
-## Author
+```yml
+name: "<CHALLENGE_TITLE>"
+author: "<YOUR_NAME>"
+category: "<Crypto|Pwn|Web|Reverse|Forensics>"
 
-(username)
+description: |
+  Lorem ipsum dolor sit amet.
 
-## Difficulty
-
-Easy/Medium/Hard
-
-## Description
-
-lorem ipsum dolor sit amet.
-
-JCC{example_flag}
+type: "StaticAttachment"
+flags:
+  - "JCC{example_flag}"
+provide: "./release"
 ```
+
+- For dynamic challenges (where flag is **dynamic**):
+
+```yml
+name: "<CHALLENGE_TITLE>"
+author: "<YOUR_NAME>"
+category: "<Crypto|Pwn|Web|Reverse|Forensics>"
+
+description: |
+  Lorem ipsum dolor sit amet.
+
+type: "DynamicContainer"
+provide: "./release" # may be omitted
+
+container:
+  containerImage: "./source"
+  flagTemplate: "JCC{Fl4g_Pr3f1x_[TEAM_HASH]}" # set dynamic flag format here. Ensure it ends with "_[TEAM_HASH]"
+  exposePort: 1337 # port to expose
+  memoryLimit: 128
+  cpuCount: 1
+  storageLimit: 256
+  networkMode: "Isolated"
+  enableTrafficCapture: false
+```
+
+Flag will be available as the container's environment variable `GZCTF_FLAG`. If flag must be placed in a file, consider adding a bash script `entrypoint.sh` that looks like this:
+
+```bash
+#!/bin/bash
+echo "$GZCTF_FLAG" > /path/to/flag.txt
+chmod 444 /path/to/flag.txt
+unset GZCTF_FLAG
+exec <command to run your service>
+```
+
+Then replace `CMD` in your Dockerfile to point to the `entrypoint.sh` script instead.
 
 # Attack-Defense
 
