@@ -7,7 +7,7 @@ P = 3231700607131100730033891392642382824881794124114023911284200975140074170663
 G = 2
 Y = 274874358782026484564369405979564522613983446581679468997993914416001091024634792450442978317525604196013158474955705669603032114771850959023049592856173977350555584182625570527217916362857361336764201600924815750632361824270928904286642599862707606475587398526004432615048851120537662786015761249339901357982193937490881757851531756303297251594435556980344294001510286397764172932528669542803585367014739212775402816424416942165054056309939880767320250514544915384277108824782598150158590100774614090515471199314202453266626470336947587956903822809957110421269343530973291287106459718705
 
-with open("flag.txt", "r") as file:
+with open("/flag.txt", "r") as file:
     FLAG = file.read().strip()
 
 HOST = "0.0.0.0"
@@ -58,7 +58,7 @@ class SchnorrHandler(socketserver.BaseRequestHandler):
             "welcome! \n"
             f"so your public key is {Y}, that means you know the secret key? \n"
             "fantastic! let's run a standard Schnorr's Protocol. send me your "
-            f"commitment R = g^r, where g is {G} and p (modulus) is {P}, "
+            f"commitment R = g^r mod p, where g is {G} and p (modulus) is {P}, "
             "and r is any number you choose!\n"
         )
         self.send(welcome)
@@ -72,7 +72,7 @@ class SchnorrHandler(socketserver.BaseRequestHandler):
         e = secrets.randbelow(5) + 1  
         self.send(
             f"Excellent! here's my challenge number: e = {e}. "
-            "Compute Z = r + e*x, where x is your secret key, then send me Z!\n"
+            "Compute Z = r + e*x (mod p), where x is your secret key, then send me Z!\n"
         )
 
         Z = self.recv_int()

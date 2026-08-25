@@ -58,7 +58,7 @@ class SchnorrHandler(socketserver.BaseRequestHandler):
             "welcome! \n"
             f"so your public key is {Y}, that means you know the secret key? \n"
             "fantastic! let's run a standard Schnorr's Protocol. send me your "
-            f"commitment R = g^r, where g is {G} and p (modulus) is {P}, "
+            f"commitment R = g^r mod p, where g is {G} and p (modulus) is {P}, "
             "and r is any number you choose!\n"
         )
         self.send(welcome)
@@ -72,7 +72,7 @@ class SchnorrHandler(socketserver.BaseRequestHandler):
         e = secrets.randbelow(5) + 1  
         self.send(
             f"Excellent! here's my challenge number: e = {e}. "
-            "Compute Z = r + e*x, where x is your secret key, then send me Z!\n"
+            "Compute Z = r + e*x (mod p), where x is your secret key, then send me Z!\n"
         )
 
         Z = self.recv_int()
