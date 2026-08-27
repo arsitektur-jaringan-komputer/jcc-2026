@@ -4,4 +4,4 @@
 | :--- | :--------: | :--------: |
 | Za King's Perjury  |   adieos   |    Easy    |
 | ...  | dailycisea |   Medium   |
-| ...  |   idzoyy   |    Hard    |
+| Warmup |   idzoyy   |    Hard    |
