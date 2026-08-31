@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Create Notes</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  </head>
+  <body
+    class="min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-gray-900 via-gray-800 to-gray-700 text-white text-center px-5"
+  >
+    <div class="space-y-8 w-full max-w-md">
+      <div class="space-y-3">
+        <div class="flex justify-center">
+          <div class="animate-bounce">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-20 w-20 text-yellow-400 drop-shadow-lg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 20h9" />
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M16.5 3a2.121 2.121 0 013 3L7 18l-4 1 1-4L16.5 3z"
+              />
+            </svg>
+          </div>
+        </div>
+
+        <h1 class="text-4xl md:text-5xl font-bold tracking-tight">Create Your Notes</h1>
+        <p class="text-gray-300 max-w-xl mx-auto text-lg">
+          Write down your thoughts, tasks, or ideas — all in one place.
+        </p>
+      </div>
+
+      <form id="noteForm" class="space-y-4 text-left">
+        <div>
+          <label for="content" class="block text-gray-300 mb-1 font-medium">Content</label>
+          <textarea
+            id="content"
+            rows="5"
+            class="w-full px-4 py-2 rounded-lg bg-gray-800 text-white placeholder-gray-500 border border-gray-700 focus:outline-none focus:ring-2 focus:ring-yellow-400 resize-none"
+            placeholder="Write something..."
+            required
+          ></textarea>
+        </div>
+
+        <div>
+          <label for="secret" class="block text-gray-300 mb-1 font-medium">Secret</label>
+          <input
+            type="text"
+            id="secret"
+            class="w-full px-4 py-2 rounded-lg bg-gray-800 text-white placeholder-gray-500 border border-gray-700 focus:outline-none focus:ring-2 focus:ring-yellow-400"
+            placeholder="Note secret..."
+          />
+        </div>
+
+        <button
+          type="submit"
+          class="w-full py-3 bg-yellow-500 text-gray-900 font-semibold rounded-full hover:bg-yellow-400 transition duration-300 shadow-lg"
+        >
+          Save Note
+        </button>
+      </form>
+
+      <div id="notesList" class="space-y-3 text-left">
+        <h2 class="text-xl font-semibold text-yellow-400">Recent Note</h2>
+        <div id="notesContainer" class="space-y-2 text-gray-300">
+          <div class="text-sm text-gray-500 italic" id="note-content">No notes yet.</div>
+          <p id="note-secret" hidden></p>
+        </div>
+      </div>
+    </div>
+
+    <footer class="absolute bottom-6 text-sm text-gray-400">
+      © <span id="year"></span> Your Notes App. All rights reserved.
+    </footer>
+
+    <script>
+      const fromHex = (hex) =>
+        new TextDecoder().decode(
+          Uint8Array.from(hex.match(/.{1,2}/g).map((byte) => parseInt(byte, 16)))
+        );
+
+      const loadRecentNote = () => {
+        const recentNote = document.cookie
+          .split('; ')
+          .find((row) => row.startsWith('recentNote='))
+          ?.split('=')[1]
+          .split('|')[1];
+
+        const noteContent = document.getElementById('note-content');
+        if (recentNote) {
+          noteContent.innerHTML = fromHex(recentNote);
+        } else {
+          noteContent.innerHTML = 'No notes yet.';
+        }
+      };
+
+      const sendNote = async (content, secret) => {
+        await fetch('/note', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ content, secret }),
+        });
+      };
+
+      document.addEventListener('DOMContentLoaded', () => {
+        document.getElementById('year').textContent = new Date().getFullYear();
+        loadRecentNote();
+        const form = document.getElementById('noteForm');
+        form.addEventListener('submit', async (e) => {
+          e.preventDefault();
+          const content = document.getElementById('content').value.trim();
+          const secret = document.getElementById('secret').value.trim();
+          if (!content) return;
+          await sendNote(content, secret);
+          loadRecentNote();
+          form.reset();
+        });
+      });
+    </script>
+  </body>
+</html>
