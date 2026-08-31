@@ -1,7 +1,7 @@
 # Forensics
 
-| Name |   Author   | Difficulty |
-| :--- | :--------: | :--------: |
-| ...  | schello24r |    Easy    |
-| ...  | schello24r |   Medium   |
-| ...  |   pujow    |    Hard    |
+|         Name        |  Author  | Difficulty |
+| :------------------ | :------: | :--------: |
+| evryday im shufflin | takanami |    Easy    |
+|        b0mb4        | takanami |   Medium   |
+|     gampang lah     |  pujow   |    Hard    |

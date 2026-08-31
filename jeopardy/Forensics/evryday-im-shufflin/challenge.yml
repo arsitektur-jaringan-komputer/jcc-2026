@@ -1,0 +1,11 @@
+name: "evryday im shufflin"
+author: "takanami"
+category: "Forensics"
+
+description: |
+  A compromised workstation repeatedly interacts with another host. It appears to be sending hidden messages to that host. Can you uncover it?
+
+type: "StaticAttachment"
+provide: "./release"
+flags:
+  - "JCC{t1m3l1n3_d3t41l_r3c0n_ftw}"

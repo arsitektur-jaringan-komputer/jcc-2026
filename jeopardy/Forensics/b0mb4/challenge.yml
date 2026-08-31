@@ -1,0 +1,11 @@
+name: "b0mb4"
+author: "takanami"
+category: "Forensics"
+
+description: |
+  A damaged backup contains several encrypted fragments. Can you restore what was broken and unveil the secret?
+
+type: "StaticAttachment"
+provide: "./release"
+flags:
+  - "JCC{z1ppy_zupp4_cr4ck3r_b4ng3r}"

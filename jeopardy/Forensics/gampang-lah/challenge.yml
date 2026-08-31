@@ -1,0 +1,11 @@
+name: "gampang lah"
+author: "pujow"
+category: "Forensics"
+
+description: |
+  Orang lagi ngedev kok udah di serang aja kocak, lain kali jangan develop di kafe.
+
+type: "StaticAttachment"
+provide: "./release"
+flags:
+  - "JCC{K3r3n_k4mu_br0!}"
