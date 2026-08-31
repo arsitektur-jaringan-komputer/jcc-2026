@@ -4,4 +4,4 @@
 | :--- | :----------: | :--------: |
 | Sudoku  | UrSourceCode |    Easy    |
 | calcluator | UrSourceCode |   Medium   |
-| ...  |     ...      |    Hard    |
+| Tiny Trace  |     UrSourceCode      |    Hard    |

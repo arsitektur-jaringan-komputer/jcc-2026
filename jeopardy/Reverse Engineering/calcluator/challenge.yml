@@ -1,0 +1,11 @@
+name: "calcluator"
+author: "UrSourceCode"
+category: "Reverse"
+
+description: |
+  A calculator has been acting strangely after several operations. Investigate the program and recover what it is hiding.
+
+type: "StaticAttachment"
+flags:
+  - "JCC{51mpl3_lu4_rev32sin9_1n_c4lclu4tor_pr09ram}"
+provide: "./release"

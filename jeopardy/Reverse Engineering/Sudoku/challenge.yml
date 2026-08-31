@@ -1,0 +1,15 @@
+name: "Sudoku"
+author: "UrSourceCode"
+category: "Reverse"
+
+description: |
+  Someone sent us a suspicious Sudoku game.
+
+  The developer claims that completing the game will unlock a secret reward.
+
+  Can you investigate the program and recover what it is hiding?
+
+type: "StaticAttachment"
+flags:
+  - "JCC{sud0ku_n3v3r_g1v3_me_th3_sec23t_sc0re}"
+provide: "./release"

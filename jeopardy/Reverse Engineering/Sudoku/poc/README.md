@@ -1,4 +1,6 @@
-# PoC
+# Sudoku - Proof of Concept
+
+> JCC 2026 - Reverse Engineering - Easy - UrSourceCode
 
 This write-up uses only IDA Free and the participant-deliverable
 `release/Sudoku.exe`. No source code or debugger is required.
@@ -11,7 +13,7 @@ After completing the puzzle, the game displays:
 Secret reward unavailable.
 ```
 
-![Game completed](https://media.discordapp.net/attachments/1432011599295549532/1539915917318684672/image.png?ex=6a880df4&is=6a86bc74&hm=ef8cdba44c449ec1a8a81c0bf403e487ac38d3358cdee69a4304fd1369b89c03&=&format=webp&quality=lossless)
+![Game completed](assets/sec.png)
 
 Open `release/Sudoku.exe` in IDA Free, wait for auto-analysis to finish, and
 search for that string in the Strings window. Follow its DATA XREF. The
@@ -47,7 +49,7 @@ normal gameplay does not make the hidden score equal `1337`.
 Follow `sub_140001D1A`. It uses `0x5A` as the initial value and each ciphertext
 byte as the next XOR value:
 
-![IDA completion check](https://media.discordapp.net/attachments/1432011599295549532/1539915932187500664/image.png?ex=6a880df8&is=6a86bc78&hm=cd163a0e402ed1b2ca9ecdef226a59780537c95189f259611c074f2b7f1c97aa&=&format=webp&quality=lossless)
+![IDA completion check](assets\ida_com.png)
 
 Raw IDA decompilation:
 

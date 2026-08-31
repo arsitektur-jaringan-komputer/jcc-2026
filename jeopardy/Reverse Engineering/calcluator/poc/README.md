@@ -1,4 +1,6 @@
-## PoC
+## Calcluator - Proof of Concept
+
+> JCC 2026 - Reverse Engineering - Medium - UrSourceCode
 
 ### The Distributable Artifact
 
@@ -133,7 +135,7 @@ The intermediate answers are:
 
 At the end, `ans` is `206` and the final internal state is `47516`.
 
-![luajit-result](https://cdn.discordapp.com/attachments/1432011599295549532/1539865122250424381/image.png?ex=6a87dea6&is=6a868d26&hm=e150ce2e644fbe25af310656ac23e8fe9ad641959bac887402b214f1772d1cba&)
+![luajit-result](assets/poc.png)
 
 ### Tips
 
