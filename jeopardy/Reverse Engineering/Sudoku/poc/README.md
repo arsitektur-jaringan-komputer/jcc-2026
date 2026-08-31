@@ -19,7 +19,7 @@ Open `release/Sudoku.exe` in IDA Free, wait for auto-analysis to finish, and
 search for that string in the Strings window. Follow its DATA XREF. The
 reference leads to the normal-win branch of the completion-check function.
 
-![IDA string cross-reference](https://media.discordapp.net/attachments/1432011599295549532/1539917379558047794/image.png?ex=6a880f51&is=6a86bdd1&hm=03ed75d934a5e9a6a7b4a722b20ef35ac5ff6246f6d26f114f54af7c23c65498&=&format=webp&quality=lossless)
+![IDA string cross-reference](assets/ida_cross_ref.png)
 
 ## 2. Find the hidden condition
 
