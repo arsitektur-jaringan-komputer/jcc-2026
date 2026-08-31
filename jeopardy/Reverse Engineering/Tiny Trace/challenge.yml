@@ -1,0 +1,15 @@
+name: "Tiny Trace"
+author: "UrSourceCode"
+category: "Reverse"
+
+description: |
+  Our monitoring team caught a suspicious maintenance utility on a locked-down workstation.
+
+  It keeps asking for an "authorization code" and won't say what it protects.
+
+  Dig into the binary and find out what it's hiding.
+
+type: "StaticAttachment"
+flags:
+  - "JCC{f0ll0w_7h3_ch1ld_br34kp01nt}"
+provide: "./release"
