@@ -1,0 +1,13 @@
+name: "shuff dot apeka"
+author: "UrSourceCode"
+category: "Reverse"
+
+description: |
+  We found an Android application that asks for a flag.
+
+  Investigate the APK and recover the correct input.
+
+type: "StaticAttachment"
+flags:
+  - "JCC{4n_1ntr0duct10n_t0_4p3ka_r3vs}"
+provide: "./release"
