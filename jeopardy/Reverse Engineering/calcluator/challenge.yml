@@ -5,6 +5,8 @@ category: "Reverse"
 description: |
   A calculator has been acting strangely after several operations. Investigate the program and recover what it is hiding.
 
+  Runtime: LuaJIT 2.1.1720049189 (x86_64)
+
 type: "StaticAttachment"
 flags:
   - "JCC{51mpl3_lu4_rev32sin9_1n_c4lclu4tor_pr09ram}"
