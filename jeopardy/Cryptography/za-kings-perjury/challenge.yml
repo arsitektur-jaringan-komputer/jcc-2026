@@ -13,7 +13,7 @@ type: "DynamicContainer" # kl static, StaticContainer
 provide: "./release" # kalo perlu atatchment
 
 container:
-  containerImage: "./source"
+  containerImage: "10.104.0.2:5000/za-kings-perjury:latest"
   flagTemplate: "JCC{ZKP_50undn3ss_3rr0r_[TEAM_HASH]}" # dynamic flag set di sini
   exposePort: 6000 # port yg diexpose
   memoryLimit: 128
