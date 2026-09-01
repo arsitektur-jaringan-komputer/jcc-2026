@@ -1,13 +1,12 @@
 encrypted = bytes.fromhex(
-    "10 53 10 6B 18 6D 09 39 52 27 78 16 25 53 60 12 "
-    "4D 2A 1B 6D 5E 01 6C 09 56 22 4A 79 26 55 30 53 "
-    "61 52 26 79 0A 69 59 2B 4E 33"
+    "4B CA BB 9F AA AB 69 DB AF BF AA CA AB 69 AF 1A "
+    "DB 69 CA 4A 69 AF FB 8F EA 69 BB AF FB AF 7A 69 "
+    "CB 2A 9F DA CB AB 2B A8 A8 38"
 )
 
-previous = 0x5A
-decoded = bytearray()
-for value in encrypted:
-    decoded.append(value ^ previous)
-    previous = value
+reversed_bytes = bytes(reversed(encrypted))
+key = (1337 * 7 + 13) % 256
+xored = bytes(b ^ key for b in reversed_bytes)
+flag = bytes(((b >> 4) | ((b & 0x0F) << 4)) & 0xFF for b in xored)
 
-print(decoded.decode("ascii"))
+print(flag.decode("ascii"))
