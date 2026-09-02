@@ -1,0 +1,25 @@
+name: Rebuild changed dynamic challenges
+
+on:
+  push:
+    branches: [master]
+    paths:
+      - "jeopardy/**"
+
+concurrency:
+  group: dynamic-challenge-images-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  rebuild:
+    name: Rebuild changed images
+    runs-on: ubuntu-latest
+    steps:
+      - name: Rebuild and push changed challenges
+        uses: appleboy/ssh-action@v1.2.5
+        with:
+          host: ${{ secrets.BUILDER_HOST }}
+          port: ${{ secrets.BUILDER_PORT }}
+          username: ${{ secrets.BUILDER_USER }}
+          key: ${{ secrets.BUILDER_SSH_KEY }}
+          script: /root/rebuild_and_push.sh
