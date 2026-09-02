@@ -17,8 +17,11 @@ jobs:
     steps:
       - name: Rebuild and push changed challenges
         uses: appleboy/ssh-action@v1.2.5
+        env:
+          PULLER_SECRET: ${{ secrets.PULLER_SECRET }}
         with:
           host: ${{ secrets.BUILDER_HOST }}
           username: ${{ secrets.BUILDER_USER }}
           key: ${{ secrets.BUILDER_SSH_KEY }}
+          envs: PULLER_SECRET
           script: /opt/rebuild_and_push.sh
