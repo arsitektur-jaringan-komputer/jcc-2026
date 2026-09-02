@@ -10,7 +10,7 @@ type: "DynamicContainer"
 provide: "./release"
 
 container:
-  containerImage: "./source"
+  containerImage: "10.104.0.2:5000/poly-auth:latest"
   flagTemplate: "JCC{Iphone_kupi_restoran_oplati_Bez_povoda_mne_podari_Koltso_s_moim_imenem_Bazovyy_minimum_[TEAM_HASH]}"
   exposePort: 13424
   memoryLimit: 128
