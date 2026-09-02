@@ -1,0 +1,11 @@
+name: "crypto-101"
+author: "anonymous"
+category: "Crypto"
+
+description: |
+  Do you know what's the difference between encoding and encrypting? Why not try both? The key is missing, unfortunately.
+
+type: "StaticAttachment"
+flags:
+  - "JCC{W3lc0me_T0_Cryp706r4phy}"
+provide: "./release"
