@@ -1,0 +1,11 @@
+name: "l0gg3r"
+author: "takanami"
+category: "Forensics"
+
+description: |
+  Some login attempts looked unusual. Whether they were mistakes, guesses, or something else was unclear. The answer lies somewhere in the noise.
+
+type: "StaticAttachment"
+provide: "./release"
+flags:
+  - "JCC{sp0t_0n_r3g3x}"
