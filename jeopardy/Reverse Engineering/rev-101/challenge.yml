@@ -4,8 +4,11 @@ category: "Reverse"
 
 description: |
   We found an Android application that asks for a flag.
-
-  Investigate the APK and recover the correct input.
+  
+  There is a secret contained somewhere in the APK's decompiled code, but it has been scrambled.
+  Investigate the application and find a way to restore the original secret.
+  
+  You can use an online decompiler such as https://www.decompiler.com/ or JADX to inspect the APK's source code.
 
 type: "StaticAttachment"
 flags:
