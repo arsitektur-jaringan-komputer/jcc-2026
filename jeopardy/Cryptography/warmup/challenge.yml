@@ -1,6 +1,9 @@
 name: "warmup"
 author: "idzoyy"
 category: "Crypto"
+originalScore: 1000
+minScoreRate: 0.25
+difficulty: 60
 
 description: |
   Kenapa aku dijauhin? salahku apa? dosaku apa? aku cuma mau punya teman. Pulang nangis, ibu peluk, ayah bilang sabar ya nak.

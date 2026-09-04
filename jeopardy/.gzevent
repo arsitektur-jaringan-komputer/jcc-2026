@@ -1,1 +1,23 @@
-title: "jcc-test"
+title: "JCC Qualifications Stage"
+start: "2026-09-09T09:00:00+07:00"
+end: "2026-09-09T16:00:00+07:00"
+
+hidden: true
+
+summary: "Jatim Cybersecurity Competition 2026 Qualification Stage"
+
+content: |
+  Welcome to JCC 2026 Qualifications.
+
+inviteCode: ""
+
+teamMemberCountLimit: 2
+containerCountLimit: 2
+
+practiceMode: true
+
+writeupRequired: false
+writeupDeadline: "2026-09-10T04:00:00+07:00"
+writeupNote: "Silahkan submit writeup sebelum deadline."
+
+bloodBonus: 0

@@ -1,6 +1,9 @@
 name: "Tiny Trace"
 author: "UrSourceCode"
 category: "Reverse"
+originalScore: 1000
+minScoreRate: 0.25
+difficulty: 60
 
 description: |
   Our monitoring team caught a suspicious maintenance utility on a locked-down workstation.

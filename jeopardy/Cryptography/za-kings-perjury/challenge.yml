@@ -1,6 +1,9 @@
 name: "Za King's Perjury"
 author: "adieos"
 category: "Crypto"
+originalScore: 1000
+minScoreRate: 0.25
+difficulty: 60
 
 description: |
   As a king, please refrain from making false statements, forging fraudulent proofs, or lying under legal oath at all times.

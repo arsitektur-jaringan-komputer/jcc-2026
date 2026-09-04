@@ -1,6 +1,9 @@
 name: "crypto-101"
 author: "anonymous"
 category: "Crypto"
+originalScore: 1000
+minScoreRate: 0.25
+difficulty: 60
 
 description: |
   Do you know what's the difference between encoding and encrypting? Why not try both? The key is missing, unfortunately.

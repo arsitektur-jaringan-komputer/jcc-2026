@@ -1,6 +1,9 @@
 name: "evryday im shufflin"
 author: "takanami"
 category: "Forensics"
+originalScore: 1000
+minScoreRate: 0.25
+difficulty: 60
 
 description: |
   A compromised workstation repeatedly interacts with another host. It appears to be sending hidden messages to that host. Can you uncover it?

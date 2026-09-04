@@ -1,6 +1,9 @@
 name: "calcluator"
 author: "UrSourceCode"
 category: "Reverse"
+originalScore: 1000
+minScoreRate: 0.25
+difficulty: 60
 
 description: |
   A calculator has been acting strangely after several operations. Investigate the program and recover what it is hiding.

@@ -1,6 +1,9 @@
 name: "rev-101"
 author: "UrSourceCode"
 category: "Reverse"
+originalScore: 1000
+minScoreRate: 0.25
+difficulty: 60
 
 description: |
   We found an Android application that asks for a flag.

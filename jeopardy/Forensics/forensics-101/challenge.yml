@@ -1,6 +1,9 @@
 name: "forensics-101"
 author: "takanami"
 category: "Forensics"
+originalScore: 1000
+minScoreRate: 0.25
+difficulty: 60
 
 description: |
   Some login attempts looked unusual. Whether they were mistakes, guesses, or something else was unclear. The answer lies somewhere in the noise.

@@ -1,6 +1,9 @@
 name: "b0mb4"
 author: "takanami"
 category: "Forensics"
+originalScore: 1000
+minScoreRate: 0.25
+difficulty: 60
 
 description: |
   A damaged backup contains several encrypted fragments. Can you restore what was broken and unveil the secret?

@@ -1,6 +1,9 @@
 name: "Poly-Auth"
 author: "me"
 category: "Crypto"
+originalScore: 1000
+minScoreRate: 0.25
+difficulty: 60
 
 description: |
   Our new polynomial MAC authentication gateway is unbreakable!

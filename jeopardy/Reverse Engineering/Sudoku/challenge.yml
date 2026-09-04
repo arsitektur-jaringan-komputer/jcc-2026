@@ -1,6 +1,9 @@
 name: "Sudoku"
 author: "UrSourceCode"
 category: "Reverse"
+originalScore: 1000
+minScoreRate: 0.25
+difficulty: 60
 
 description: |
   Someone sent us a suspicious Sudoku game.
