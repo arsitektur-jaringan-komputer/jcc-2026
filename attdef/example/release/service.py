@@ -17,7 +17,7 @@ class Handler(BaseHTTPRequestHandler):
 
     def do_GET(self):
         note_id = self.path.split("/note/")[-1]
-        path = os.path.join(NOTES_DIR, note_id)  # <- no sanitization: the bug
+        path = os.path.join(NOTES_DIR, note_id) 
         try:
             with open(path) as f:
                 self._respond(200, {"content": f.read()})

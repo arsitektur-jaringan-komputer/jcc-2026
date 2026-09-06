@@ -2,7 +2,7 @@ from checker import check, Mumble
 
 @check
 def check_notes_service(t):
-    # t.flag is the current tick's flag, read from /flag inside your box
+    # t.flag is the current tick's flag
     resp = t.post("/note", json={"content": t.flag})
     if resp.status_code != 200:
         raise Mumble("failed to store note")

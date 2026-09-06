@@ -5,15 +5,16 @@ description: |
   Lorem ipsum dolor sit amet
 
 type: "AttackDefense"
-value: 1000
 
 container:
-  exposePort: 80
+  exposePort: 80 # adjust me
   memoryLimit: 64
   cpuCount: 1
   storageLimit: 256
 
 ad:
-  checkerImage: "checkers/notepad:latest"
+  checkerImage: "checkers/notepad:latest" # replace "notepad" with your challenge name
   allowEgress: true
   allowSelfReset: true
+
+provide: "./release"
