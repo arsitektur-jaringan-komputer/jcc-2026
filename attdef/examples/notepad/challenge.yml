@@ -1,0 +1,19 @@
+name: "notepad"
+author: "adieos"
+
+description: |
+  Lorem ipsum dolor sit amet
+
+type: "AttackDefense"
+value: 1000
+
+container:
+  exposePort: 80
+  memoryLimit: 64
+  cpuCount: 1
+  storageLimit: 256
+
+ad:
+  checkerImage: "registry.example.com/notepad:latest"
+  allowEgress: true
+  allowSelfReset: true
