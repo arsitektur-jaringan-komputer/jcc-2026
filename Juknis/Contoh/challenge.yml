@@ -1,0 +1,19 @@
+name: "Contoh"
+author: "N/A"
+category: "Misc"
+
+description: |
+  Contoh challenge
+
+type: "DynamicContainer"
+provide: "./release" # may be omitted
+
+container:
+  containerImage: "./source"
+  flagTemplate: "JCC{Contoh_Flag_Seperti_Ini_[TEAM_HASH]}" # set dynamic flag format here. Ensure it ends with "_[TEAM_HASH]"
+  exposePort: 8080 # port to expose
+  memoryLimit: 128
+  cpuCount: 1
+  storageLimit: 256
+  networkMode: "Isolated"
+  enableTrafficCapture: false
