@@ -14,6 +14,6 @@ container:
   storageLimit: 256
 
 ad:
-  checkerImage: "registry.example.com/notepad:latest"
+  checkerImage: "checkers/notepad:latest"
   allowEgress: true
   allowSelfReset: true
