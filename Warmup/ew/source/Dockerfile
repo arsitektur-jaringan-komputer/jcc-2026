@@ -10,6 +10,8 @@ WORKDIR /home/ctf
 
 COPY chall /home/ctf/
 COPY flag.txt /home/ctf/
+COPY entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
 
 RUN chown -R root:root /home/ctf && \
     chmod -R 555 /home/ctf && \
@@ -19,5 +21,5 @@ EXPOSE 4009
 
 # Run socat as ctf directly
 USER ctf
-ENTRYPOINT ["/entrypoint.sh"]
+CMD ["/entrypoint.sh"]
 # ENTRYPOINT ["socat", "TCP-LISTEN:4009,reuseaddr,fork,nodelay", "EXEC:timeout 60 /home/ctf/chall"]
