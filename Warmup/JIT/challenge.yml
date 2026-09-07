@@ -1,0 +1,14 @@
+name: "JIT"
+author: "N/A"
+category: "Reverse"
+originalScore: 1000
+minScoreRate: 0.25
+difficulty: 60
+
+description: |
+  Jit Jood
+
+type: "StaticAttachment"
+flags:
+  - "JCC{impressive_lua_reversing!}"
+provide: "./release"

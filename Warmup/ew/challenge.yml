@@ -1,20 +1,24 @@
-name: "legalshop"
+name: "ew"
 author: "N/A"
-category: "Web"
+category: "Pwn"
 originalScore: 1000
 minScoreRate: 0.25
 difficulty: 60
 
 description: |
-  A totally legal shop
+  This challenge is really simple, I promise!
+
+  Connect using:
+
+      nc HOST PORT
 
 type: "DynamicContainer" # kl static, StaticContainer
 provide: "./release" # kalo perlu atatchment
 
 container:
-  containerImage: "10.104.0.2:5000/legalshop:latest"
-  flagTemplate: "JCC{totally_legal_shop[TEAM_HASH]}" # dynamic flag set di sini
-  exposePort: 4004 # port yg diexpose
+  containerImage: "10.104.0.2:5000/ew:latest"
+  flagTemplate: "JCC{T4rg3t_Ch4ng3d_[TEAM_HASH]}" # dynamic flag set di sini
+  exposePort: 1337 # port yg diexpose
   memoryLimit: 128
   cpuCount: 1
   storageLimit: 256

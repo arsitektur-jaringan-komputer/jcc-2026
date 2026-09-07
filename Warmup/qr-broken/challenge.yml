@@ -1,0 +1,14 @@
+name: "qr-broken"
+author: "N/A"
+category: "Reverse"
+originalScore: 1000
+minScoreRate: 0.25
+difficulty: 60
+
+description: |
+  this QR is a corrupted flag, recover it. The txt file is simply a base64-encoded version of the image.
+
+type: "StaticAttachment"
+flags:
+  - "JCC{iph0n3_16_pr0_max_aku_b1sa_bac4_ini_kok}"
+provide: "./release"
