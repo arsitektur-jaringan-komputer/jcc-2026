@@ -1,4 +1,5 @@
 FROM ubuntu:22.04
+ENV DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get update && \
     apt-get -y install curl \
@@ -9,7 +10,6 @@ RUN useradd -m -u 1000 -s /bin/bash ctf
 WORKDIR /home/ctf
 
 COPY chall /home/ctf/
-COPY flag.txt /home/ctf/
 COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 
@@ -17,7 +17,7 @@ RUN chown -R root:root /home/ctf && \
     chmod -R 555 /home/ctf && \
     chmod +x /home/ctf/chall
 
-EXPOSE 4009
+EXPOSE 1337
 
 # Run socat as ctf directly
 USER ctf
