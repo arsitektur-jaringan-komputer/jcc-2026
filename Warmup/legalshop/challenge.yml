@@ -1,0 +1,22 @@
+name: "legalshop"
+author: "N/A"
+category: "Web"
+originalScore: 1000
+minScoreRate: 0.25
+difficulty: 60
+
+description: |
+  A totally legal shop
+
+type: "DynamicContainer" # kl static, StaticContainer
+provide: "./release" # kalo perlu atatchment
+
+container:
+  containerImage: "10.104.0.2:5000/xorxo:latest"
+  flagTemplate: "JCC{totally_legal_shop[TEAM_HASH]}" # dynamic flag set di sini
+  exposePort: 4004 # port yg diexpose
+  memoryLimit: 128
+  cpuCount: 1
+  storageLimit: 256
+  networkMode: "Isolated"
+  enableTrafficCapture: false
