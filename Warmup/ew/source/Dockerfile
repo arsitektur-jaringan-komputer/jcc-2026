@@ -14,7 +14,7 @@ COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 
 RUN chown -R root:root /home/ctf && \
-    chmod -R 555 /home/ctf && \
+    chmod -R 777 /home/ctf && \
     chmod +x /home/ctf/chall
 
 EXPOSE 1337
