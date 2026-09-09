@@ -1,0 +1,10 @@
+name: "Sanity Check"
+author: "N/A"
+category: "Misc"
+
+description: |
+  Selamat datang di Jatim Cybersecurity Competition 2026! Format flag untuk semua soal adalah `JCC{.*}`! Temukan flag untuk soal ini di dalam PDF Petunjuk Teknis. 
+
+type: "StaticAttachment"
+flags:
+  - "JCC{Contoh_Flag_Seperti_Ini_0b1139dd7421}"
