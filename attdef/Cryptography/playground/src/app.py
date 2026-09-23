@@ -2,15 +2,48 @@ import rsa
 from Crypto.PublicKey import RSA
 from Crypto.Cipher import AES
 from Crypto.Util.Padding import pad, unpad
+import fcntl
 import os
+import tempfile
 from time import ctime
 import json
 from pathlib import Path
 
-KEY = os.urandom(16)
 FLAG_FILE = Path("/flag")
+RUNTIME_DIR = Path(os.environ.get("PLAYGROUND_RUNTIME_DIR", "/run/playground"))
+AES_KEY_FILE = RUNTIME_DIR / "aes.key"
+RSA_KEY_FILE = RUNTIME_DIR / "rsa.pem"
 
-rsakey = RSA.generate(2048, e=3)
+
+def _atomic_write(path, data):
+    with tempfile.NamedTemporaryFile(dir=RUNTIME_DIR, delete=False) as output:
+        output.write(data)
+        output.flush()
+        os.fsync(output.fileno())
+        temporary_path = output.name
+    os.chmod(temporary_path, 0o600)
+    os.replace(temporary_path, path)
+
+
+def load_or_create_key_material():
+    """Create unique key material once per pod, then load it for each session."""
+    RUNTIME_DIR.mkdir(mode=0o700, parents=True, exist_ok=True)
+    with (RUNTIME_DIR / "key.lock").open("a+b") as lock:
+        fcntl.flock(lock, fcntl.LOCK_EX)
+        try:
+            key = AES_KEY_FILE.read_bytes()
+            rsakey = RSA.import_key(RSA_KEY_FILE.read_bytes())
+            if len(key) != 16 or not rsakey.has_private():
+                raise ValueError("invalid key material")
+        except (OSError, ValueError, IndexError, TypeError):
+            key = os.urandom(16)
+            rsakey = RSA.generate(2048, e=3)
+            _atomic_write(AES_KEY_FILE, key)
+            _atomic_write(RSA_KEY_FILE, rsakey.export_key(format="PEM"))
+        return key, rsakey
+
+
+KEY, rsakey = load_or_create_key_material()
 private_key = rsa.PrivateKey(rsakey.n, rsakey.e, rsakey.d, rsakey.p, rsakey.q)
 public_key = rsa.PublicKey(rsakey.n, rsakey.e)
 
@@ -67,7 +100,11 @@ def request_handler(req):
         print("Invalid command")
         return
 
-    if command in ["claim", "get"] and not (("ticket" and "signature" in req) or "user" in req):
+    if command == "claim" and not ("ticket" in req and "signature" in req):
+        print("need arguments")
+        return
+
+    if command == "get" and "user" not in req:
         print("need arguments")
         return
 
