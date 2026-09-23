@@ -2,5 +2,4 @@
 
 | Name |  Author  | Difficulty |
 | :--- | :------: | :--------: |
-|  freeflag | idzoyy  |   Easy   |
-| playground | idzoyy |    Hard    |
+| playground | idzoyy |    Medium    |

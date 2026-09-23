@@ -1,0 +1,17 @@
+name: playground
+author: idzoyy
+description: >
+  play with me.
+type: AttackDefense
+category: Crypto
+container:
+  containerImage: 10.104.0.2:5000/playground:latest
+  memoryLimit: 256
+  cpuCount: 1
+  storageLimit: 256
+  exposePort: 6969
+
+ad:
+  checkerImage: "10.104.0.2:5000/checker/playground:latest"
+  allowEgress: false
+  allowSelfReset: true
