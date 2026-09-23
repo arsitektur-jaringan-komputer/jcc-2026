@@ -13,8 +13,6 @@ import time
 from dataclasses import dataclass, field
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 
-import requests
-
 OK, MUMBLE, OFFLINE, INTERNAL_ERROR = 0, 1, 2, 3
 NAME = {OK: "Ok", MUMBLE: "Mumble", OFFLINE: "Offline", INTERNAL_ERROR: "InternalError"}
 MAX_BODY = 1024 * 1024
@@ -53,47 +51,9 @@ class Target:
     challenge_id: int
     flags: tuple[RetainedFlag, ...]
     deadline: float = field(default_factory=lambda: time.monotonic() + 24)
-    session: requests.Session = field(default_factory=requests.Session, repr=False)
 
-    def __post_init__(self):
-        self.session.trust_env = False
-
-    @property
-    def url(self):
-        host = "[" + self.ip + "]" if ":" in self.ip else self.ip
-        return f"http://{host}:{self.port}"
-
-    def request(self, method, path="/", **kwargs):
-        remaining = self.deadline - time.monotonic()
-        if remaining <= 0:
-            raise Offline("target response deadline exceeded")
-        kwargs.setdefault("timeout", min(3, remaining))
-        kwargs["allow_redirects"] = False
-        kwargs["stream"] = True
-        try:
-            response = self.session.request(method, self.url + path, **kwargs)
-            chunks, size = [], 0
-            for chunk in response.iter_content(1):
-                if time.monotonic() >= self.deadline:
-                    response.close()
-                    raise Offline("target response deadline exceeded")
-                size += len(chunk)
-                if size > MAX_BODY:
-                    response.close()
-                    raise Mumble("service response exceeded the maximum size")
-                chunks.append(chunk)
-            response._content = b"".join(chunks)
-            response._content_consumed = True
-            response.close()
-            return response
-        except requests.RequestException:
-            raise Offline("target transport failed") from None
-
-    def get(self, path="/", **kwargs):
-        return self.request("GET", path, **kwargs)
-
-    def post(self, path="/", **kwargs):
-        return self.request("POST", path, **kwargs)
+    def close(self):
+        pass
 
 
 def integer(value, name, low=1, high=2147483647):
@@ -147,13 +107,20 @@ def worker_target(payload):
 
 
 TCP_BUFFER_LIMIT = 64 * 1024
-TCP_TIMEOUT = 20
+TCP_TIMEOUT = 4
 
 
-def _recv_until(connection, marker):
+def _recv_until(connection, marker, deadline):
     data = bytearray()
     while marker not in data:
-        chunk = connection.recv(4096)
+        remaining = deadline - time.monotonic()
+        if remaining <= 0:
+            raise Offline("target response deadline exceeded")
+        connection.settimeout(min(TCP_TIMEOUT, remaining))
+        try:
+            chunk = connection.recv(4096)
+        except socket.timeout:
+            raise Offline("target response deadline exceeded") from None
         if not chunk:
             raise Mumble("target closed the connection before its response")
         data.extend(chunk)
@@ -162,9 +129,21 @@ def _recv_until(connection, marker):
     return bytes(data)
 
 
-def _send_request(connection, request, marker):
-    connection.sendall(json.dumps(request, separators=(",", ":")).encode() + b"\n")
-    return _recv_until(connection, marker).decode("utf-8", errors="replace")
+def _send_raw_request(target, connection, raw_request, marker):
+    remaining = target.deadline - time.monotonic()
+    if remaining <= 0:
+        raise Offline("target response deadline exceeded")
+    try:
+        connection.settimeout(min(TCP_TIMEOUT, remaining))
+        connection.sendall(raw_request + b"\n")
+    except OSError:
+        raise Offline("target transport failed") from None
+    return _recv_until(connection, marker, target.deadline).decode("utf-8", errors="replace")
+
+
+def _send_request(target, connection, request, marker):
+    raw_request = json.dumps(request, separators=(",", ":")).encode()
+    return _send_raw_request(target, connection, raw_request, marker)
 
 
 def _flip_hex(value):
@@ -172,36 +151,37 @@ def _flip_hex(value):
     return replacement + value[1:]
 
 
-def _expect_message(connection, request, message):
-    response = _send_request(connection, request, message.encode())
+def _expect_message(target, connection, request, message):
+    response = _send_request(target, connection, request, message.encode())
     if message not in response:
         raise Mumble("unexpected response message")
 
 
-def _expect_raw_message(connection, raw_request, message):
-    connection.sendall(raw_request + b"\n")
-    response = _recv_until(connection, message.encode()).decode("utf-8", errors="replace")
+def _expect_raw_message(target, connection, raw_request, message):
+    response = _send_raw_request(target, connection, raw_request, message.encode())
     if message not in response:
         raise Mumble("unexpected response message")
 
 
 def check_service(target):
+    remaining = target.deadline - time.monotonic()
+    if remaining <= 0:
+        raise Offline("target response deadline exceeded")
     try:
-        connection = socket.create_connection((target.ip, target.port), timeout=TCP_TIMEOUT)
+        connection = socket.create_connection((target.ip, target.port), timeout=min(TCP_TIMEOUT, remaining))
     except OSError:
         raise Offline("target TCP service is unreachable") from None
 
     with connection:
-        connection.settimeout(TCP_TIMEOUT)
-        _expect_message(connection, {}, "Invalid request")
-        _expect_message(connection, {"command": "unknown"}, "Invalid command")
-        _expect_message(connection, {"command": "get"}, "need arguments")
-        _expect_message(connection, {"command": "claim"}, "need arguments")
-        _expect_message(connection, {"command": "claim", "ticket": "x"}, "need arguments")
-        _expect_message(connection, {"command": "claim", "signature": "x"}, "need arguments")
-        _expect_raw_message(connection, b"not-json", "Something went wrong, please try again.")
+        _expect_message(target, connection, {}, "Invalid request")
+        _expect_message(target, connection, {"command": "unknown"}, "Invalid command")
+        _expect_message(target, connection, {"command": "get"}, "need arguments")
+        _expect_message(target, connection, {"command": "claim"}, "need arguments")
+        _expect_message(target, connection, {"command": "claim", "ticket": "x"}, "need arguments")
+        _expect_message(target, connection, {"command": "claim", "signature": "x"}, "need arguments")
+        _expect_raw_message(target, connection, b"not-json", "Something went wrong, please try again.")
 
-        response = _send_request(connection, {"command": "get", "user": "sla-checker"},
+        response = _send_request(target, connection, {"command": "get", "user": "checker!!"},
                                   b"save your ticket: ")
         try:
             ticket = ast.literal_eval(response.rsplit("save your ticket: ", 1)[1].strip())
@@ -220,7 +200,7 @@ def check_service(target):
         except (KeyError, TypeError, ValueError, SyntaxError):
             raise Mumble("get returned an invalid ticket") from None
 
-        response = _send_request(connection,
+        response = _send_request(target, connection,
                                   {"command": "claim", "ticket": encrypted_ticket,
                                    "signature": signature},
                                   b"not for you, sorry")
@@ -237,13 +217,13 @@ def check_service(target):
         if (not isinstance(ticket_data, dict)
             or set(ticket_data) != {"timestamp", "user", "role", "access"}
                 or not isinstance(ticket_data["timestamp"], str)
-                or ticket_data["user"] != "sla-checker"
+                or ticket_data["user"] != "checker!!"
                 or ticket_data["role"] != "guest"
                 or ticket_data["access"] is not False):
             raise Mumble("decrypted ticket structure changed")
 
         tampered_ticket = _flip_hex(encrypted_ticket)
-        response = _send_request(connection,
+        response = _send_request(target, connection,
                                   {"command": "claim", "ticket": tampered_ticket,
                                    "signature": signature},
                                   b"Invalid signature")
@@ -251,7 +231,7 @@ def check_service(target):
             raise Mumble("tampered ticket was accepted")
 
         tampered_signature = _flip_hex(signature)
-        response = _send_request(connection,
+        response = _send_request(target, connection,
                                   {"command": "claim", "ticket": encrypted_ticket,
                                    "signature": tampered_signature},
                                   b"Invalid signature")
@@ -285,7 +265,7 @@ def run_check(target):
         response["message"] = {MUMBLE: "ordinary service functionality failed",
                                OFFLINE: "target service is unreachable",
                                INTERNAL_ERROR: "checker execution failed"}[status]
-    target.session.close()
+    target.close()
     return response
 
 
@@ -343,7 +323,7 @@ class WorkerHandler(BaseHTTPRequestHandler):
             self.send_json(400, {"status": "InternalError", "code": INTERNAL_ERROR, "error": "invalid V2 request"})
             return
         if not self.server.check_lock.acquire(blocking=False):
-            target.session.close()
+            target.close()
             self.send_json(503, {"status": "InternalError", "code": INTERNAL_ERROR, "error": "worker is busy"})
             return
         try:
