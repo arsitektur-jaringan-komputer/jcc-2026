@@ -147,7 +147,7 @@ def worker_target(payload):
 
 
 TCP_BUFFER_LIMIT = 64 * 1024
-TCP_TIMEOUT = 4
+TCP_TIMEOUT = 20
 
 
 def _recv_until(connection, marker):
