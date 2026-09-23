@@ -1,23 +1,7 @@
-title: "AD testing"
-start: "2026-08-07T09:00:00+07:00"
-end: "2026-10-10T16:00:00+07:00"
+title: "JCC Final Stage"
 
-hidden: true
-
-summary: "testing ad,change me"
-
-content: |
-  testing ad,change me pls
-
-inviteCode: ""
+summary: "Semoga Sukses"
 
 teamMemberCountLimit: 2
-containerCountLimit: 2
 
-practiceMode: true
-
-writeupRequired: false
-writeupDeadline: "2026-09-10T04:00:00+07:00"
-writeupNote: "writeup note"
-
-bloodBonus: 0
+practiceMode: false

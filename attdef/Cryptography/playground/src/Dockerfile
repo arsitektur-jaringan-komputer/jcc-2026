@@ -1,8 +1,10 @@
 FROM python:3.11-slim
 
 RUN apt-get update \
-    && apt-get install -y --no-install-recommends supervisor socat make vim-tiny nano \
+    && apt-get install -y --no-install-recommends supervisor socat make vim nano \
     && rm -rf /var/lib/apt/lists/*
+
+SHELL ["/bin/bash", "-c"]
 
 WORKDIR /app
 COPY requirements.txt /app/requirements.txt

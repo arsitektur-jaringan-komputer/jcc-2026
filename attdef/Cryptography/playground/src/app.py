@@ -8,7 +8,7 @@ import json
 from pathlib import Path
 
 KEY = os.urandom(16)
-FLAG_FILE = = Path("/flag")
+FLAG_FILE = Path("/flag")
 
 rsakey = RSA.generate(2048, e=3)
 private_key = rsa.PrivateKey(rsakey.n, rsakey.e, rsakey.d, rsakey.p, rsakey.q)
